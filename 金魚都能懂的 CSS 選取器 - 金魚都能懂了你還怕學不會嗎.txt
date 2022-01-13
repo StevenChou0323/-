@@ -1,0 +1,102 @@
+CSS選取器分為
+1.Tag
+2.class
+3.ID
+4.屬性
+5.僞元素（虛擬元素）
+6.僞類別（虛擬類別）
+
+其中為僞類別又可以分為
+1.動態僞類別（:hover、:active...等）
+2.結構僞類別（:first-child、:last-child...等）
+3.迴圈僞類別（:nth-child、:nth-of-type...等）
+4.表單僞類別（:disabled、:enabled...等）
+
+CSS reset可以把tag預設值拿掉並自定義
+CSS normalize是部分tag預設值拿掉
+
+class
+1.class名稱第一個字不能是數字
+2.一個物件可以有很多個class名稱
+
+id
+1.id名稱第一個字不能是數字
+2.id名稱不可以重複(但瀏覽器仍會有作用 JS就會有問題)
+3.一個物件不可以同時有兩個id
+
+<p class="amos" id="handsome">...內文略</p>
+兩種方式可以搜尋(記得不能有空格且tag要在最前面)
+p.amos#handsome{ ...略 }
+p#handsome.amos{ ...略 }
+
+空格代表後代選取器(Descendant combinator)
+<div class="news">
+	<h1>Amos</h1>
+</div>
+
+<div class="hot">
+	<h1>Alvee</h1>
+</div>
+
+/*將所有的標題都設定為 36像素字級*/
+h1{ font-size: 36px; }
+
+/*將 news 裡面的 h1 設定成紅色字*/
+.news h1{ color: red; }
+
+/*將 hot 裡面的 h1 設定成粉紅色字*/
+.hot h1{ color: pink; }
+
+.news ul li a 瀏覽器會從右至左找尋，也就是瀏覽器會先選取到a tag後再看li tag.....
+如果一個流程不符合我們寫的css選取器層疊結構，代表之前搜尋的都在做白工(也就是耗效能 不過目前的瀏覽器好像有對這一塊做優化)
+目前文獻沒有特別提到瀏覽器會從右至左找尋會耗效能這件事情
+
+*優先權比tag低 id比tag class優先權還要高
+
+a[href$=".png"], a[href$=".PNG"] { background-image: url("icon-png.png"); }
+, 後可以接一另一個選取器代表A跟B條件都符合
+
+<img src="..." alt="Amos是帥哥">
+<img src="..." alt="Alvee正妹我老婆">
+<img src="...">
+
+CSS 屬性選取器的7種規則:
+
+1.選取【擁有特定屬性】的物件
+img[alt] { border:none; }
+這是for HTML屬性寫法
+
+2.選取屬性值【完全等於】特定文字的物件
+img[alt="子瑜我婆"] { display:none; }
+
+3.選取屬性值【開頭等於】特定文字的物件
+img[alt^="子瑜"] { display: none; }
+
+4.選取屬性值【結尾等於】特定文字
+a[href$=".png" i] { background-image: url("icon-png.png"); }
+i代表不分大小寫
+
+5.選取屬性值中【包含特定文字】的物件
+img[alt*="子瑜"][alt*="我婆"] { display: none; }
+
+6.選取屬性值中【包含特定單字】的物件
+<img src="..." alt="Amos is a handsome live broadcaster">
+<img src="..." alt="Alvee">
+<img src="..." alt="Amos is Youtuber">
+<img src="..." alt="AmosIsYoutuber">
+
+img[alt*="Amos"] { ...略 }
+1.3.4都會中
+
+img[alt~="Amos"] { ...略 }
+只有1.3會中
+
+7.選取屬性值【開頭等於特定文字或包括 - 號】的物件
+[屬性|=值]跟[屬性^=值]很像，很少用到
+
+a[href] { font-weight: bold; }
+a[href^="https://csscoke.com"] { font-weight: normal; }
+先將所有的超連結設定為粗體，再將https://csscoke.com連結設定為一般字體
+
+可以寫成比較直覺方式:
+a:not([href^="https://csscoke.com"])  { font-weight: bold; }
